@@ -2,7 +2,10 @@ from django.contrib.auth import authenticate
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.contrib import messages
+
+from.forms import RegisterForm
 def index(request):
 	return render (request,'index.html',{
 		'message': 'Listado de productos',
@@ -27,4 +30,13 @@ def login_view(request):
 			messages.error(request,'Usuario o contrasena no validos')
 	return render(request, 'users/login.html', {
 
+	})
+def logout_view(request):
+	logout(request)
+	messages.success(request,'sesion cerrada exitosament')
+	return redirect('login')
+def register(request):
+	form = RegisterForm()
+	return render(request, 'users/register.html',{
+		'form':form
 	})
