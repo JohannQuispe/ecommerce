@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Regsitro</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2>Registro</h2>
+
+        <!--formulario-->
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            {{form.username.label_tag}}
+            {{form.username}}
+          </div>
+
+          <div class="form-group">
+            {{form.email.label_tag}}
+            {{form.email}}
+          </div>
+
+          <div class="form-group">
+            {{form.password.label_tag}}
+            {{form.password}}
+          </div>
+          <button type="submit" class="btn btn-primary">Registrar</button>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>
