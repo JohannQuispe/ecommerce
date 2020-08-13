@@ -4,23 +4,20 @@ from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib import messages
-
+from products.models import Product
 from django.contrib.auth.models import User
 from.forms import RegisterForm
 def index(request):
+	products = Product.objects.all().order_by('-id')
 	return render (request,'index.html',{
 		'message': 'Listado de productos',
 		'title': 'Productos',
-		'products': [
-			{'title':'playera','price':5,'stock': True},
-			{'title':'camisa','price':7,'stock': True}	,
-			{'title':'mochila','price':20,'stock': False},	#{}representan un diccionario y los dicconarios a un productos
-		]
+		'products': products,
 	})
 def login_view(request):
 	if request.user.is_authenticated:
 		return redirect('index')
-		
+
 	if request.method == 'POST':
 		username=request.POST.get('username')
 		password=request.POST.get('password')
