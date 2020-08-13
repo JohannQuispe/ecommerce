@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib import messages
 
+from django.contrib.auth.models import User
 from.forms import RegisterForm
 def index(request):
 	return render (request,'index.html',{
@@ -17,6 +18,9 @@ def index(request):
 		]
 	})
 def login_view(request):
+	if request.user.is_authenticated:
+		return redirect('index')
+		
 	if request.method == 'POST':
 		username=request.POST.get('username')
 		password=request.POST.get('password')
@@ -36,7 +40,15 @@ def logout_view(request):
 	messages.success(request,'sesion cerrada exitosament')
 	return redirect('login')
 def register(request):
-	form = RegisterForm()
+	if request.user.is_authenticated:
+		return redirect('index')
+	form = RegisterForm(request.POST or None)
+	if request.method == 'POST' and form.is_valid():
+		user=form.save()
+		if user:
+			login(request, user)
+			messages.success(request, 'Usuario creado Exitosamente')
+			return redirect('index')
 	return render(request, 'users/register.html',{
 		'form':form
 	})
