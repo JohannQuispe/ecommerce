@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['127.0.0.1','.pythonanywhere.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'users',
     'products',
     'categories',
     'django.contrib.admin',
@@ -52,6 +53,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'amboro_store.urls'
+AUTH_USER_MODEL ='users.User'
 
 TEMPLATES = [
     {

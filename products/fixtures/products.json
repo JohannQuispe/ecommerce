@@ -1,0 +1,38 @@
+[
+{
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+        "tittle": "Energizante",
+        "description": "Energizante natural a base de miel, propoleo y polen multifloral",
+        "price": "50.00",
+        "slug": "energizante",
+        "image": "products/56431038_2140580819367880_5157780183716986880_o.jpg",
+        "created_at": "2020-08-15T14:11:01.592Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+        "tittle": "miel de abeja 1 kg",
+        "description": "Miel de abeja calidad buenavistena",
+        "price": "55.00",
+        "slug": "miel-de-abeja-1-kg",
+        "image": "products/15134551_1163977757028196_530396694066498156_n.jpg",
+        "created_at": "2020-08-15T14:11:59.234Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+        "tittle": "miel 1/2 kg",
+        "description": "miel de calidad Buenavistena",
+        "price": "35.00",
+        "slug": "miel-12-kg",
+        "image": "products/images.jpeg",
+        "created_at": "2020-08-15T14:12:57.391Z"
+    }
+}
+]
