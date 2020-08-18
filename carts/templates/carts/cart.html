@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load product_extras %}
+
 {% block content %}
   {% if cart.products.exists %}
     <div class="col-8">
@@ -14,23 +15,25 @@
           </tr>
         </thead>
         <tbody>
-          {% for product in cart.products.all %}
-            <tr>
-              <th>{{ forloop.counter }}</th>
-              <th>
-                {% if product.image %}
-                  <img src="{{product.image.url}}" alt="Imagen del producto"width="60"height="60">
-                {% endif %}
-              </th>
-              <th>
-                <a href="{% url 'products:product' product.slug %}">{{product.tittle}}</a>
-                {%include 'carts/snippets/remove.html'%}
-              </th>
-              <th>1</th>
-              <th>
-                <span class='font-weight-bolt text-danger'>{{product.price | price_format }}</span>
-              </th>
-            </tr>
+          {% for cp in cart.products_related %}
+            {% with product=cp.product %}
+              <tr>
+                <th>{{ forloop.counter }}</th>
+                <th>
+                  {% if product.image %}
+                  <img src="{{ product.image.url }}" alt="Imagen del producto" width="60" height="60">
+                  {% endif %}
+                </th>
+                <th>
+                  <a href="{% url 'products:product' product.slug %}">{{product.tittle}}</a>
+                  {%include 'carts/snippets/remove.html'%}
+                </th>
+                <th>{{cp.quantity}}</th>
+                <th>
+                  <span class='font-weight-bolt text-danger'>{{product.price | price_format }}</span>
+                </th>
+              </tr>
+            {%endwith%}
           {%endfor%}
         </tbody>
       </table>
@@ -38,8 +41,8 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <div class="font-weight-bolt">
-            Subtotal ({{cart.products.count}}): <span class="text-danger">{{cart.subtotal | price_format}}</span>
+          <div class="font-weight-bold">
+            Subtotal({{ cart.products.count }}): <span class="text-danger">{{ cart.subtotal | price_format }}</span>
           </div>
           <div class="mt-2">
             <a href="#" class="btn btn-warning">Proceder al pago</a>
@@ -49,8 +52,9 @@
     </div>
   {% else %}
     <div class="col">
-      <p class="3">Tu carrito de compras esta vacio</p>
-      <a href="{% url 'index'%}">Seguir Comprando</a>
+      <p class="h3">Tu carrito de compras esta vacio.</p>
+      <a href="{% url 'index' %}">Seguir Comprando</a>
     </div>
   {% endif %}
+
 {% endblock %}

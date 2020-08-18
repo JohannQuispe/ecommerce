@@ -1,28 +1,30 @@
-{%extends 'base.html'%}
-{% load product_extras %}
-{%block content%}
-  <div class="col-3">
-    {% if product.image %}
-      <img src="{{ product.image.url }}" alt="Imagen del Producto"width="200"height="200">
-    {%endif%}
+{% extends 'base.html' %}
+{% load cart_extras %}
+{% block content %}
+
+<div class="col-3">
+  {% if product.image %}
+    <img src="{{ product.image.url }}" alt="Imagen del Producto"width="200"height="200">
+  {% endif %}
+</div>
+
+<div class="col">
+  <div class="h3 font-weight-bold text-success">
+    {{ quantity | quantity_add_format }} al carrito
   </div>
-  <div class="col">
-    <div class="h3 font-weight-bold text-success">
-      Producto agregado al carrito
-    </div>
-    <div class="">
-      <a href="{% url 'products:product' product.slug %}">
-        {{product.tittle}}
-      </a>
-    </div>
-    <div class="font-weight-bolt text-danger">
-      {{product.price | price_format }}
-    </div>
-    <div class="mt-2">
-      <a href="{% url 'carts:cart' %}" class="btn btn-info">Ver Carrito</a>
-    </div>
-    <div class="mt-2">
-      <a href="{% url 'index' %}" class ="btn btn-info">Seguir Comprado</a>
-    </div>
+  <div class="">
+    <a href="{% url 'products:product' product.slug %}">
+      {{ product.tittle }}
+    </a>
   </div>
+  <div class="font-weight-bold text-danger">
+    {{ product.price }}
+  </div>
+  <div class="mt-2">
+    <a href="{% url 'carts:cart' %}" class="btn btn-info">Ver Carrito</a>
+  </div>
+  <div class="mt-2">
+    <a href="{% url 'index' %}" class ="btn btn-info">Seguir Comprado</a>
+  </div>
+</div>
 {% endblock %}
