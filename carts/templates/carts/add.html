@@ -16,7 +16,13 @@
       </a>
     </div>
     <div class="font-weight-bolt text-danger">
-      {{product.price | price_format }} 
+      {{product.price | price_format }}
+    </div>
+    <div class="mt-2">
+      <a href="{% url 'carts:cart' %}" class="btn btn-info">Ver Carrito</a>
+    </div>
+    <div class="mt-2">
+      <a href="{% url 'index' %}" class ="btn btn-info">Seguir Comprado</a>
     </div>
   </div>
 {% endblock %}
