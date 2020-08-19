@@ -8,6 +8,8 @@ from products.models import Product
 #from django.contrib.auth.models import User
 from users.models import User
 from.forms import RegisterForm
+from django.http import HttpResponseRedirect
+
 def index(request):
 	products = Product.objects.all().order_by('-id')
 	return render (request,'index.html',{
@@ -26,6 +28,10 @@ def login_view(request):
 		if user:
 			login(request, user)
 			messages.success(request,'Bienvenido {}'.format(user.username))
+
+			if request.GET.get('next'):
+				return HttpResponseRedirect(request.GET['next'])
+
 			return redirect('index')
 
 		else:

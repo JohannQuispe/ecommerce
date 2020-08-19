@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['127.0.0.1','.pythonanywhere.com']
 INSTALLED_APPS = [
     'users',
     'carts',
+    'orders',
     'products',
     'categories',
     'django.contrib.admin',
