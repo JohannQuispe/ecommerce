@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
-
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -61,14 +61,26 @@ def create(request):
     if request.method == 'POST' and form.is_valid():
         shipping_address = form.save(commit=False)
         shipping_address.user = request.user
-        shipping_address.default = not ShippingAddress.objects.filter(user=request.user).exists()
+        shipping_address.default = not request.user.has_shipping_address()
 
         shipping_address.save()
 
         messages.success(request, 'Direccion creada exitosamente')
         return redirect('shipping_addresses:shipping_addresses')
 
-
     return render(request, 'shipping_addresses/create.html',{
         'form':form
     })
+@login_required(login_url='login')
+def default(request, pk):
+    shipping_address = get_object_or_404(ShippingAddress, pk=pk)
+
+    if request.user.id != shipping_address.user_id:
+        return redirect('carts:cart')
+
+    if request.user.has_shipping_address():
+        request.user.shipping_address.update_default()
+
+    shipping_address.update_default(True)
+
+    return redirect('shipping_addresses:shipping_addresses')
