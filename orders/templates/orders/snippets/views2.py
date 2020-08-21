@@ -1,34 +1,25 @@
 from django.contrib import messages
-
 from django.http import HttpResponseRedirect
-
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.views.generic import ListView
-
-from carts.utils import get_or_create_cart
-from orders.utils import get_or_create_order
-from django.views.generic.edit import UpdateView
-from django.views.generic.edit import DeleteView
-
-from django.shortcuts import get_object_or_404
-
 from django.contrib.auth.decorators import login_required
-
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import render
 from django.shortcuts import reverse
+from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-
 from .models import ShippingAddress
 from .forms import ShippingAddressForm
-# Create your views here.
+from django.views.generic import ListView
+from django.views.generic.edit import UpdateView
+from django.views.generic.edit import DeleteView
+from carts.utils import get_or_create_cart
+from orders.utils import get_or_create_order
+
 class ShippingAddressListView(LoginRequiredMixin, ListView):
     login_url = 'login'
     model = ShippingAddress
     template_name = 'shipping_addresses/shipping_addresses.html'
-    success_message = 'Dirección actualizada exitosamente'
 
     def get_queryset(self):
         return ShippingAddress.objects.filter(user=self.request.user).order_by('-default')
@@ -39,7 +30,6 @@ class ShippingAddressUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateV
     form_class = ShippingAddressForm
     template_name = 'shipping_addresses/update.html'
     success_message = 'Dirección actualizada exitosamente'
-
 
     def get_success_url(self):
         return reverse('shipping_addresses:shipping_addresses')
@@ -67,7 +57,7 @@ class ShippingAddressDeleteView(LoginRequiredMixin, DeleteView):
             return redirect('shipping_addresses:shipping_addresses')
 
         return super(ShippingAddressDeleteView, self).dispatch(request, *args, **kwargs)
-        
+
 @login_required(login_url='login')
 def create(request):
     form = ShippingAddressForm(request.POST or None)
@@ -94,7 +84,6 @@ def create(request):
     return render(request, 'shipping_addresses/create.html', {
         'form': form
     })
-
 
 @login_required(login_url='login')
 def default(request, pk):

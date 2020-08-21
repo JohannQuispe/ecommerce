@@ -2,7 +2,7 @@ import uuid
 import decimal
 
 from django.db import models
-
+from orders.common import OrderStatus
 from users.models import User
 from products.models import Product
 from django.db.models.signals import pre_save
@@ -43,7 +43,7 @@ class Cart(models.Model):
         return self.cartproducts_set.select_related('product')
     @property
     def order(self):
-        return self.order_set.first()
+        return self.order_set.filter(status=OrderStatus.CREATED).first()
 
 class CartProductsManager(models.Manager):
 
