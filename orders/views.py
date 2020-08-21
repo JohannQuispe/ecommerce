@@ -1,3 +1,5 @@
+import threading
+
 from .utils import breadcrumb
 from .utils import destroy_order
 from carts.utils import destroy_cart
@@ -43,7 +45,7 @@ def address(request, cart, order):
 
     #shipping_address = order.shipping_address
     shipping_address = order.get_or_set_shipping_address()
-    can_choose_address = request.user.shippingaddress_set.count() > 1
+    can_choose_address = request.user.has_shipping_addresses()
 
     return render(request, 'orders/address.html', {
         'cart': cart,
@@ -55,9 +57,8 @@ def address(request, cart, order):
 
 @login_required(login_url='login')
 def select_address(request):
-    #shipping_addresses = request.user.addresses
-    shipping_addresses = request.user.shippingaddress_set.all()
 
+    shipping_addresses = request.user.addresses
     return render(request, 'orders/select_address.html', {
         'breadcrumb': breadcrumb(address=True),
         'shipping_addresses': shipping_addresses
@@ -117,7 +118,10 @@ def complete(request, cart, order):
         return redirect('carts:cart')
 
     order.complete()
-    Mail.send_complete_order(order, request.user)
+    thread = threading.Thread(target=Mail.send_complete_order, args=(
+        order, request.user
+    ))
+    thread.start()
 
     destroy_cart(request)
     destroy_order(request)
