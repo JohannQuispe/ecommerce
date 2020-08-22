@@ -1,6 +1,6 @@
 import threading
 from charges.models import Charge
-
+from django.db import transaction
 from .utils import breadcrumb
 from .utils import destroy_order
 from carts.utils import destroy_cart
@@ -139,15 +139,16 @@ def complete(request, cart, order):
 
     charge = Charge.objects.create_charge(order)
     if charge:
-        order.complete()
+        with transaction.atomic():
+            order.complete()
 
-        thread = threading.Thread(target=Mail.send_complete_order, args=(
-            order, request.user
-        ))
-        thread.start()
+            thread = threading.Thread(target=Mail.send_complete_order, args=(
+                order, request.user
+            ))
+            thread.start()
 
-        destroy_cart(request)
-        destroy_order(request)
+            destroy_cart(request)
+            destroy_order(request)
 
-        messages.success(request, 'Compra completada exitosamente')
+            messages.success(request, 'Compra completada exitosamente')
     return redirect('index')
