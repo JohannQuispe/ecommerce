@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'orders',
     'products',
     'categories',
+    'billing_profiles',
     'shipping_addresses',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -128,6 +129,8 @@ EMAIL_HOST_USER = 'jquis812@gmail.com'
 EMAIL_HOST_PASSWORD = 'jb7803105JB'
 EMAIL_USE_TLS = True
 
+STRIPE_PUBLIC_KEY = 'pk_test_51HImxHGU4eiL1A64tu8vUcXntO6aRiU836NBsShkl1hSWKnKcMYg8YqulUBSasf4rRrlTUdPP71k0obm1YxMEyrv00YYw1xrGE'
+STRIPE_PRIVATE_KEY = 'sk_test_51HImxHGU4eiL1A640dpmLiI6zvqdULk7vyilaFghUBichHxttlj2wnfx3Lb7BJLsy3cCooPK1k0rAmqqyxFC4hfs00ue1UYSC6'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
