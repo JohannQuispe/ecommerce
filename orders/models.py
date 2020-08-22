@@ -54,7 +54,7 @@ class Order(models.Model):
 
     def update_billing_profile(self, billing_profile):
         self.billing_profile = billing_profile
-        self.save()    
+        self.save()
 
     def update_shipping_address(self, shipping_address):
         self.shipping_address = shipping_address
@@ -76,7 +76,12 @@ class Order(models.Model):
     def get_total(self):
         return self.cart.total + self.shipping_total
 
-
+    @property
+    def description(self):
+        return 'Compra por ({}) producto(s) '.format(
+            self.cart.products.count()
+        )
+    
 
 def set_order_id(sender, instance, *args, **kwargs):
     if not instance.order_id:

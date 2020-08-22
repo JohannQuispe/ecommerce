@@ -1,4 +1,5 @@
 import threading
+from charges.models import Charge
 
 from .utils import breadcrumb
 from .utils import destroy_order
@@ -133,18 +134,20 @@ def cancel(request, cart, order):
 @validate_cart_and_order
 @login_required(login_url='login')
 def complete(request, cart, order):
-
     if request.user.id != order.user_id:
         return redirect('carts:cart')
 
-    order.complete()
-    thread = threading.Thread(target=Mail.send_complete_order, args=(
-        order, request.user
-    ))
-    thread.start()
+    charge = Charge.objects.create_charge(order)
+    if charge:
+        order.complete()
 
-    destroy_cart(request)
-    destroy_order(request)
+        thread = threading.Thread(target=Mail.send_complete_order, args=(
+            order, request.user
+        ))
+        thread.start()
 
-    messages.success(request, 'Compra completada exitosamente')
+        destroy_cart(request)
+        destroy_order(request)
+
+        messages.success(request, 'Compra completada exitosamente')
     return redirect('index')
