@@ -18,6 +18,7 @@
             Carrito <span class="fas fa-shopping-cart"></span>
           </a>
         </li>
+
         {% if user.is_authenticated %}
           <li class= "nav-item {% if request.path == shipping_addresses  %}active{%endif%}">
             <a class="nav-link" href="{{ shipping_addresses }}">
@@ -36,7 +37,9 @@
               Mis métodos de pago <span class="fab fa-cc-stripe"></span>
             </a>
           </li>
+
         {% endif %}
+
 
 
       </ul>

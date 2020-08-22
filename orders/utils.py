@@ -15,8 +15,8 @@ def breadcrumb(products=True, address=False, payment=False, confirmation=False):
     return [
         {'tittle':'Productos', 'active':products, 'url': reverse('orders:order') },
         {'tittle':'Dirección', 'active':address, 'url': reverse('orders:address') },
-        {'tittle':'Pagos','active':payment, 'url': reverse('orders:order')},
-        {'tittle':'Productos','active':confirmation, 'url': reverse('orders:order')},
+        {'tittle':'Pagos','active':payment, 'url': reverse('orders:payment')},
+        {'tittle':'Confirmacion','active':confirmation, 'url': reverse('orders:confirm')},
 
 
     ]

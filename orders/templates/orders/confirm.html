@@ -12,7 +12,7 @@
     <div class="card">
       <div class="card-body">
         <div class="row">
-          <div class="col-4">
+          <div class="col-6">
             <div class="font-weight-bold">
               Direccion de Envio
             </div>
@@ -28,16 +28,19 @@
             <div class="cart-text">
               {{ shipping_address.postal_code }}
             </div>
-
           </div>
-          <div class="col-4">
+
+
+          <div class="col-6">
             <div class="font-weight-bold">
               Metodo de Pago
             </div>
             <div class="cart-text">
-              Tarjeta terminacion 4242
+              Tarjeta terminacion {{ order.billing_profile.last4 }}
             </div>
           </div>
+
+<!--
           <div class="col-4">
             <div class="font-weight-bold">
               CodigoPromocional
@@ -46,6 +49,8 @@
               <input type="text" name="code" value="" class="form-control" placeholder="promo_code">
             </form>
           </div>
+-->
+
         </div>
       </div>
     </div>
