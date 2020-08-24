@@ -81,7 +81,7 @@ class Order(models.Model):
         return 'Compra por ({}) producto(s) '.format(
             self.cart.products.count()
         )
-    
+
 
 def set_order_id(sender, instance, *args, **kwargs):
     if not instance.order_id:
